@@ -1,4 +1,5 @@
 for backend 
+ --yarn add nodemon
  -- yarn add express
  -- yarn add mongoose
  -- npm i express-validator // to validate the input of the data in the backend
