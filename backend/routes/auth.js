@@ -19,9 +19,10 @@ router.post(
   ],
   async (req, res) => {
     // if there are error that return bad request
+    let success = false;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({success, errors: errors.array() });
     }
 
     //check whether the user with same email already exist
@@ -31,7 +32,7 @@ router.post(
       if (user) {
         return res
           .status(400)
-          .json({ error: "Sorry user with this email already exist" });
+          .json({success, error: "Sorry user with this email already exist" });
       }
 
       //creating salt and hash for the password security
@@ -52,9 +53,9 @@ router.post(
       }
 
       const authtoken = jwt.sign(data, JWT_SECRET);
+      success = true;
       
-      
-      res.json({authtoken});
+      res.json({success,authtoken});
     } catch (error) {
       console.error(error.message);
       res.status(500).send("Internal server error occured");
@@ -75,6 +76,7 @@ router.post("/login",[
      const errors = validationResult(req);
      if (!errors.isEmpty()) {
        return res.status(400).json({ errors: errors.array() });
+       let success = false;
      }
 
      const {email, password} = req.body;
@@ -82,13 +84,15 @@ router.post("/login",[
      try{
          let user = await User.findOne({email});
          if(!user){
-             return res.status(400).json({error: "Please try to login with Authentical credential"});
+           success = false;
+             return res.status(400).json({success,error: "Please try to login with Authentical credential"});
          }
 
          const passwordCompare = await bcrypt.compare(password, user.password);
 
          if(!passwordCompare){
-            return res.status(400).json({error: "Please try to login with Authentical credential"});
+           success = false;
+            return res.status(400).json({success,error: "Please try to login with Authentical credential"});
          }
          const data = {
              user:{
@@ -96,8 +100,8 @@ router.post("/login",[
              }
          }
          const authtoken = jwt.sign(data, JWT_SECRET);
-      
-         res.json({authtoken});
+         success = true;
+         res.json({success,authtoken});
      }
      catch(error){
         console.error(error.message);

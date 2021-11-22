@@ -4,6 +4,7 @@ for backend
  -- yarn add mongoose
  -- npm i express-validator // to validate the input of the data in the backend
  -- npm i bcrypt // add bcrypt salt to generate the hash for the password
+ -- npm install cors //for the API request in the backend in browser
 
 
  for frontend

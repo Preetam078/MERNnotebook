@@ -25,6 +25,10 @@ const Navbar = () => {
         </li>
        
       </ul>
+      <form>
+      <Link role="button" className="btn btn-primary mx-4" to="/login">Login</Link>
+      <Link role="button" className="btn btn-primary" to="/signup">SignUp</Link>
+      </form>
     </div>
   </div>
 </nav>
